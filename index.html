@@ -3,107 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>chliebAkava | Kvások, káva a pomalý život</title>
+    <title>chliebAkava | Kvások a káva</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-color: #faf9f6; --accent-color: #1c1917; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--accent-color); scroll-behavior: smooth; }
-        h1, h2, h3, h4, .serif { font-family: 'Playfair Display', serif; }
-        .logo-font { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; }
-        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .cart-sidebar { transition: transform 0.3s ease-in-out; transform: translateX(100%); }
-        .cart-sidebar.open { transform: translateX(0); }
-        .overlay { display: none; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); position: fixed; inset: 0; z-index: 100; }
-        .overlay.active { display: block; }
+        body { font-family: 'Inter', sans-serif; background-color: #faf9f6; color: #1c1917; }
+        .serif { font-family: 'Playfair Display', serif; }
+        .hero-bg { background: linear-gradient(rgba(255,255,255,0.😎, rgba(255,255,255,0.8)), url('https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1000'); background-size: cover; background-position: center; }
+        .product-card img { transition: transform 0.5s ease; }
+        .product-card:hover img { transform: scale(1.05); }
     </style>
 </head>
-<body class="overflow-x-hidden">
+<body>
 
-    <nav class="fixed top-0 left-0 right-0 bg-stone-50/90 backdrop-blur-md z-50 border-b border-stone-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20 items-center">
-                <div class="flex-shrink-0 cursor-pointer" onclick="navigate('home')">
-                    <h1 class="text-2xl tracking-tight logo-font">chliebAkava</h1>
-                </div>
-                <div class="hidden md:flex space-x-12 uppercase text-[10px] tracking-[0.2em] font-semibold text-stone-500">
-                    <button onclick="navigate('home')" class="hover:text-black transition-colors">Domov</button>
-                    <button onclick="navigate('blog')" class="hover:text-black transition-colors">Blog</button>
-                    <button onclick="navigate('shop')" class="hover:text-black transition-colors">Obchod</button>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <button onclick="toggleCart()" class="relative p-2 text-stone-700 hover:text-black">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.1-5.31H5.12"/></svg>
-                        <span id="cart-count" class="absolute top-0 right-0 bg-stone-900 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
-                    </button>
-                </div>
+    <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-sm z-50 border-b border-stone-200 py-4">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <h1 class="text-2xl font-bold italic serif cursor-pointer" onclick="navigate('home')">chliebAkava</h1>
+            <div class="space-x-8 uppercase text-[10px] tracking-widest font-bold text-stone-500">
+                <button onclick="navigate('home')" class="hover:text-black">Domov</button>
+                <button onclick="navigate('shop')" class="hover:text-black">Obchod</button>
             </div>
         </div>
     </nav>
 
-    <main id="main-content" class="pt-20 min-h-screen"></main>
-
-    <footer class="bg-stone-100 border-t border-stone-200 pt-16 pb-8 mt-24">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <h1 class="text-2xl logo-font mb-4">chliebAkava</h1>
-            <p class="text-stone-500 italic text-sm mb-6">Hľadáme krásu v jednoduchosti.</p>
-            <p class="text-xs text-stone-400">© 2024 chliebAkava s.r.o.</p>
-        </div>
-    </footer>
-
-    <div id="overlay" class="overlay" onclick="toggleCart()"></div>
-    <div id="cart-sidebar" class="cart-sidebar fixed top-0 right-0 w-full max-w-md h-full bg-white z-[110] shadow-2xl flex flex-col">
-        <div class="p-8 border-b flex justify-between items-center">
-            <h2 class="text-xs uppercase font-bold tracking-widest">Váš Košík</h2>
-            <button onclick="toggleCart()">Zatvoriť</button>
-        </div>
-        <div id="cart-items" class="flex-grow overflow-y-auto p-8"></div>
-        <div id="cart-footer" class="p-8 border-t"></div>
-    </div>
-
-    <div id="ai-modal" class="hidden fixed inset-0 z-[120] items-center justify-center p-4">
-        <div class="absolute inset-0 bg-stone-900/60 backdrop-blur-sm" onclick="toggleAI()"></div>
-        <div class="relative w-full max-w-xl bg-white p-8 rounded-sm">
-            <h3 class="text-2xl font-bold italic serif mb-4">Máte otázku?</h3>
-            <div id="ai-response" class="mb-4 text-stone-700 italic text-sm">Pýtajte sa čokoľvek o pečení...</div>
-            <form onsubmit="handleAIAsk(event)" class="flex gap-4">
-                <input id="ai-input" type="text" class="flex-grow border-b border-stone-200 py-2 focus:outline-none" placeholder="Prečo cesto nerastie?">
-                <button type="submit" class="bg-stone-900 text-white px-6 py-2 uppercase font-bold text-xs">Poslať</button>
-            </form>
-        </div>
-    </div>
+    <main id="main-content" class="pt-20"></main>
 
     <script>
         const PRODUCTS = [
-            { id: '1', name: 'Oválna ošatka', price: 16.90, category: 'Ošatky', image: 'https://images.unsplash.com/photo-1589367920969-ab8e050bac04?q=80&w=800&auto=format&fit=crop', description: 'Prírodná ošatka na kysnutie chleba.' },
-            { id: '2', name: 'Okrúhla ošatka', price: 14.90, category: 'Ošatky', image: 'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?q=80&w=800&auto=format&fit=crop', description: 'Ošatka pre klasický okrúhly bochník.' }
+            { id: '1', name: 'Oválna ošatka', price: 16.90, img: 'https://images.unsplash.com/photo-1589367920969-ab8e050bac04?auto=format&fit=crop&q=80&w=500' },
+            { id: '2', name: 'Nožík na narezávanie', price: 22.50, img: 'https://images.unsplash.com/photo-1586439702132-4634616616c5?auto=format&fit=crop&q=80&w=500' },
+            { id: '3', name: 'Ľanové vrecúško', price: 12.00, img: 'https://images.unsplash.com/photo-1590650213165-c1fef80648c4?auto=format&fit=crop&q=80&w=500' }
         ];
-
-        let cart = [];
 
         function navigate(view) {
             const content = document.getElementById('main-content');
-            content.className = 'pt-20 min-h-screen fade-in';
+            window.scrollTo(0,0);
             if (view === 'home') {
                 content.innerHTML = `
-                    <section class="min-h-[80vh] flex flex-col items-center justify-center text-center bg-[#faf9f6] px-4">
-                        <span class="text-stone-500 uppercase tracking-[0.4em] text-[10px] font-bold mb-6">Krása pomalého života</span>
-                        <h1 class="text-5xl md:text-7xl text-stone-900 font-bold mb-8 italic serif">Vôňa chleba,<br/>pokoj v šálke.</h1>
-                        <button onclick="navigate('shop')" class="bg-stone-900 text-white px-10 py-5 text-xs uppercase tracking-widest font-bold">Vstúpiť do obchodu</button>
+                    <section class="hero-bg min-h-[70vh] flex flex-col items-center justify-center text-center px-6">
+                        <h1 class="text-5xl md:text-7xl font-bold italic serif mb-6">Vôňa chleba,<br>pokoj v šálke.</h1>
+                        <p class="text-stone-600 max-w-md mb-8 text-lg">Ručne robené pomôcky pre vašu domácu pekáreň.</p>
+                        <button onclick="navigate('shop')" class="bg-stone-900 text-white px-12 py-4 uppercase text-xs tracking-widest font-bold hover:bg-black transition-all">Vstúpiť do obchodu</button>
                     </section>
                 `;
             } else if (view === 'shop') {
                 content.innerHTML = `
-                    <div class="max-w-7xl mx-auto px-4 py-16">
-                        <h1 class="text-5xl text-center mb-16 serif italic">Náš Obchod</h1>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="max-w-7xl mx-auto px-6 py-16">
+                        <h2 class="text-4xl serif italic mb-12 text-center">Naša ponuka</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
                             ${PRODUCTS.map(p => `
-                                <div class="border p-4 text-center">
-                                    <img src="${p.image}" class="w-full h-64 object-cover mb-4">
-                                    <h3 class="text-xl serif italic font-bold">${p.name}</h3>
-                                    <p class="mb-4">${p.price.toFixed(2)} €</p>
-                                    <button onclick="addToCart('${p.id}')" class="bg-stone-900 text-white px-6 py-2 text-xs uppercase">Pridať do košíka</button>
+                                <div class="product-card group">
+                                    <div class="aspect-[3/4] overflow-hidden bg-stone-200 mb-4 rounded-lg">
+                                        <img src="${p.img}" class="w-full h-full object-cover">
+                                    </div>
+                                    <h3 class="text-lg font-bold serif italic">${p.name}</h3>
+                                    <p class="text-stone-500 mb-4">${p.price.toFixed(2)} €</p>
+                                    <button class="w-full border border-stone-900 py-2 uppercase text-[10px] font-bold hover:bg-stone-900 hover:text-white transition-all">Pridať do košíka</button>
                                 </div>
                             `).join('')}
                         </div>
@@ -111,35 +66,6 @@
                 `;
             }
         }
-
-        function addToCart(id) {
-            const p = PRODUCTS.find(prod => prod.id === id);
-            cart.push(p);
-            updateCart();
-            toggleCart(true);
-        }
-
-        function updateCart() {
-            const items = document.getElementById('cart-items');
-            const count = document.getElementById('cart-count');
-            count.innerText = cart.length;
-            count.classList.remove('hidden');
-            items.innerHTML = cart.map(item => <div class="mb-4 border-b pb-2">${item.name} - ${item.price.toFixed(2)} €</div>).join('');
-            document.getElementById('cart-footer').innerHTML = <button class="w-full bg-stone-900 text-white py-4 uppercase font-bold text-xs">Zaplatiť</button>;
-        }
-
-        function toggleCart(open) {
-            document.getElementById('cart-sidebar').classList.toggle('open', open);
-            document.getElementById('overlay').classList.toggle('active', open);
-        }
-
-        function toggleAI() { document.getElementById('ai-modal').classList.toggle('hidden'); document.getElementById('ai-modal').classList.toggle('flex'); }
-        
-        function handleAIAsk(e) {
-            e.preventDefault();
-            document.getElementById('ai-response').innerText = "Váš kváskový poradca: Na túto otázku budem vedieť odpovedať hneď, ako ma plne prepojíte s mojou pecou!";
-        }
-
         navigate('home');
     </script>
 </body>
