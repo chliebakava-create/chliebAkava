@@ -49,8 +49,8 @@
     <main id="main-content" class="pt-20 min-h-screen"></main>
 
     <footer class="bg-stone-100 border-t border-stone-200 pt-16 pb-8 mt-24">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12 text-center md:text-left">
                 <div>
                     <h1 class="text-2xl logo-font mb-4">chliebAkava</h1>
                     <p class="text-stone-600 text-sm italic leading-relaxed">Hľadáme krásu v jednoduchosti. Kváskový chlieb, výberová káva a spomalenie.</p>
@@ -58,8 +58,8 @@
                 <div>
                     <h3 class="uppercase text-[10px] tracking-widest font-bold text-stone-900 mb-6">Sledujte nás</h3>
                     <div class="flex justify-center md:justify-start space-x-4 text-stone-600">
-                        <a href="https://www.instagram.com/chliebakava/" target="_blank" class="hover:text-black">Instagram</a>
-                        <a href="https://www.tiktok.com/@chliebakava" target="_blank" class="hover:text-black">TikTok</a>
+                        <a href="https://www.instagram.com/chliebakava/" target="_blank" class="hover:text-black transition-colors">Instagram</a>
+                        <a href="https://www.tiktok.com/@chliebakava" target="_blank" class="hover:text-black transition-colors">TikTok</a>
                     </div>
                 </div>
                 <div>
@@ -69,14 +69,10 @@
                 <div>
                     <h3 class="uppercase text-[10px] tracking-widest font-bold text-stone-900 mb-6">Právne</h3>
                     <ul class="space-y-3 text-sm text-stone-600">
-                        <li><a href="#" class="hover:text-black">Obchodné podmienky</a></li>
-                        <li><a href="#" class="hover:text-black">GDPR</a></li>
+                        <li><a href="#" class="hover:text-black transition-colors">Obchodné podmienky</a></li>
+                        <li><a href="#" class="hover:text-black transition-colors">GDPR</a></li>
                     </ul>
                 </div>
-            </div>
-            <div class="border-t border-stone-200 pt-8 text-xs text-stone-500 flex justify-between">
-                <p>© 2024 chliebAkava s.r.o.</p>
-                <p>IČO: 12345678</p>
             </div>
         </div>
     </footer>
@@ -85,7 +81,7 @@
     <div id="cart-sidebar" class="cart-sidebar fixed top-0 right-0 w-full max-w-md h-full bg-white z-[110] shadow-2xl flex flex-col">
         <div class="p-8 border-b flex justify-between items-center bg-stone-50">
             <h2 class="text-xs uppercase font-bold tracking-widest">Váš Košík</h2>
-            <button onclick="toggleCart(false)" class="p-2 hover:bg-stone-200 rounded-full transition-colors">
+            <button onclick="toggleCart(false)" class="p-2 hover:bg-stone-200 rounded-full transition-colors text-stone-400 hover:text-black">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
             </button>
         </div>
@@ -97,23 +93,15 @@
         const PRODUCTS = [
             { id: '1', name: 'Oválna ošatka', price: 16.90, category: 'Ošatky', image: 'https://images.unsplash.com/photo-1589367920969-ab8e050bac04?w=400', description: 'Prírodná oválna ošatka z nebieleného ratanu.' },
             { id: '2', name: 'Okrúhla ošatka', price: 14.90, category: 'Ošatky', image: 'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=400', description: 'Okrúhla ošatka na klasické bochníky.' },
-            { id: '3', name: 'Nožík na narezávanie', price: 22.50, category: 'Náradie na chlieb', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400', description: 'Profesionálny nožík na narezávanie.' },
-            { id: '4', name: 'Stierka na cesto', price: 8.90, category: 'Náradie na chlieb', image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400', description: 'Praktická stierka uľahčuje miešanie.' },
-            { id: '5', name: 'Látková vložka do ošatky', price: 6.50, category: 'Náradie na chlieb', image: 'https://images.unsplash.com/photo-1581339399838-2a120c18bba3?w=400', description: 'Bavlnená vložka zabraňuje prilepeniu.' },
-            { id: '6', name: 'Sklená dóza na kvások', price: 12.00, category: 'Náradie na chlieb', image: 'https://images.unsplash.com/photo-1621841957884-1210fe1bbd66?w=400', description: 'Dóza s odmerkou pre váš kvások.' },
-            { id: '7', name: 'Sada na pečenie chleba', price: 45.00, category: 'Sady pre začiatočníkov', image: 'https://images.unsplash.com/photo-1598373182133-52452f7691ef?w=400', description: 'Kompletná štartovacia sada.' }
+            { id: '3', name: 'Nožík na narezávanie', price: 22.50, category: 'Náradie na chlieb', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400', description: 'Profesionálny nožík na narezávanie.' }
         ];
 
         let cart = [];
-        let navigationHistory = []; // Na sledovanie histórie pre tlačidlo späť
+        let navigationHistory = [];
 
         window.navigate = (view, productId = null, saveToHistory = true) => {
             const content = document.getElementById('main-content');
-            
-            // Uložíme aktuálny stav do histórie pred navigáciou
-            if (saveToHistory) {
-                navigationHistory.push({ view, productId });
-            }
+            if (saveToHistory) navigationHistory.push({ view, productId });
 
             content.className = 'pt-20 min-h-screen fade-in';
             window.scrollTo(0, 0);
@@ -122,19 +110,17 @@
                 content.innerHTML = `
                     <section class="min-h-[80vh] flex flex-col md:flex-row items-center bg-[#faf9f6] text-center md:text-left px-8">
                         <div class="flex-1 md:pl-24 py-16">
-                            <h1 class="text-5xl md:text-7xl font-bold mb-8 italic serif">Vôňa chleba,<br/>pokoj v šálke.</h1>
-                            <button onclick="navigate('shop')" class="bg-stone-900 text-white px-10 py-5 uppercase text-xs font-bold tracking-widest shadow-xl">Obchod</button>
+                            <h1 class="text-5xl md:text-7xl font-bold mb-8 italic serif leading-tight text-stone-900">Vôňa chleba,<br/>pokoj v šálke.</h1>
+                            <button onclick="navigate('shop')" class="bg-stone-900 text-white px-10 py-5 uppercase text-[10px] font-bold tracking-widest shadow-xl hover:bg-black transition-all">Vstúpiť do obchodu</button>
                         </div>
                         <div class="flex-1 flex justify-center p-12">
-                            <img src="https://chliebakava.sk/wp-content/uploads/2023/11/logo-chliebakava.png" class="max-w-md w-full opacity-80">
+                            <img src="F6E936AE-6050-45CF-A3B0-7E0EB0EB7EBA.jpg" alt="chliebAkava Logo" class="max-w-md w-full opacity-90 transition-opacity hover:opacity-100">
                         </div>
                     </section>`;
             } else if (view === 'about') {
                 content.innerHTML = `
                     <div class="max-w-5xl mx-auto px-8 py-24 text-center md:text-left">
-                        <div class="mb-12">
-                            <h1 class="text-5xl serif italic mb-4">O nás</h1>
-                        </div>
+                        <h1 class="text-6xl serif italic mb-16 text-center">O nás</h1>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                             <img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=800" class="grayscale-[20%] rounded shadow-sm">
                             <div class="space-y-6 text-stone-600 text-lg leading-relaxed">
@@ -144,7 +130,7 @@
                                 <p>Na chliebAkava budem zdieľať svoje skúsenosti s kváskom a moje osvedčené recepty, ktoré sama v kuchyni skúšam a vraciam sa k nim. Bez zbytočného komplikovania, tak, aby si ich vedel zvládnuť aj ty doma.</p>
                                 <p>Na tomto e-shope nájdeš pomôcky, ktoré pri pečení používam a ktorým dôverujem. Každá z nich má v mojej kuchyni svoje miesto a pomáha mi robiť pečenie jednoduchším a pokojnejším.</p>
                                 <p>chliebAkava je o tichých ránach, o teplom krajci chleba a o káve, ktorá chutí najlepšie, keď máš chvíľu pre seba.</p>
-                                <p class="text-3xl mt-8 text-stone-900">Vitaj 🤍</p>
+                                <p class="text-3xl mt-8 text-stone-900 font-serif">Vitaj 🤍</p>
                             </div>
                         </div>
                     </div>`;
@@ -152,12 +138,14 @@
                 content.innerHTML = `
                     <div class="max-w-7xl mx-auto px-8 py-16">
                         <h1 class="text-5xl text-center serif italic mb-16">Obchod</h1>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
                             ${PRODUCTS.map(p => `
                                 <div class="cursor-pointer group" onclick="navigate('product', '${p.id}')">
-                                    <img src="${p.image}" class="w-full h-80 object-cover mb-4 group-hover:scale-105 transition-all">
+                                    <div class="overflow-hidden mb-4 aspect-square bg-white shadow-sm">
+                                        <img src="${p.image}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                    </div>
                                     <h3 class="text-lg font-bold italic serif">${p.name}</h3>
-                                    <p>${p.price.toFixed(2)} €</p>
+                                    <p class="text-stone-500">${p.price.toFixed(2)} €</p>
                                 </div>
                             `).join('')}
                         </div>
@@ -166,16 +154,16 @@
                 const p = PRODUCTS.find(x => x.id === productId);
                 content.innerHTML = `
                     <div class="max-w-7xl mx-auto px-8 py-16">
-                        <button onclick="goBack()" class="mb-12 flex items-center gap-2 text-stone-400 hover:text-black uppercase text-[10px] font-bold tracking-widest">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Späť
+                        <button onclick="goBack()" class="mb-12 flex items-center gap-2 text-stone-400 hover:text-black uppercase text-[10px] font-bold tracking-widest transition-colors">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Späť do obchodu
                         </button>
                         <div class="grid md:grid-cols-2 gap-16">
                             <img src="${p.image}" class="w-full shadow-lg">
                             <div class="flex flex-col justify-center">
                                 <h1 class="text-5xl serif italic font-bold mb-6">${p.name}</h1>
                                 <p class="text-2xl mb-8">${p.price.toFixed(2)} €</p>
-                                <p class="mb-12 italic text-stone-600">${p.description}</p>
-                                <button onclick="addToCart('${p.id}')" class="w-full bg-stone-900 text-white py-5 uppercase font-bold text-xs tracking-widest shadow-xl">Pridať do košíka</button>
+                                <p class="mb-12 italic text-stone-600 leading-relaxed">${p.description}</p>
+                                <button onclick="addToCart('${p.id}')" class="w-full bg-stone-900 text-white py-5 uppercase font-bold text-[10px] tracking-widest shadow-xl hover:bg-black transition-all">Pridať do košíka</button>
                             </div>
                         </div>
                     </div>`;
@@ -184,32 +172,32 @@
             }
         };
 
-        // Funkcia na krok späť
         window.goBack = () => {
             if (navigationHistory.length > 1) {
-                navigationHistory.pop(); // Odstránime aktuálnu stránku
-                const lastState = navigationHistory.pop(); // Získame predošlú
-                navigate(lastState.view, lastState.productId);
-            } else {
-                navigate('home');
-            }
+                navigationHistory.pop(); 
+                const last = navigationHistory.pop();
+                navigate(last.view, last.productId);
+            } else navigate('home');
         };
 
         const renderCheckoutPage = (container) => {
             const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
             container.innerHTML = `
                 <div class="max-w-5xl mx-auto px-8 py-16">
-                    <button onclick="goBack()" class="mb-12 flex items-center gap-2 text-stone-400 hover:text-black uppercase text-[10px] font-bold tracking-widest">
+                    <button onclick="goBack()" class="mb-12 flex items-center gap-2 text-stone-400 hover:text-black uppercase text-[10px] font-bold tracking-widest transition-colors">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Späť
                     </button>
                     <h1 class="text-5xl serif italic mb-16 text-center">Súhrn objednávky</h1>
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
                         <div class="lg:col-span-2 space-y-8">
-                            ${cart.map(item => `
+                            ${cart.length === 0 ? '<p class="text-stone-400 italic">Košík je prázdny.</p>' : cart.map(item => `
                                 <div class="flex items-center justify-between border-b border-stone-100 pb-8">
                                     <div class="flex items-center gap-6">
                                         <img src="${item.image}" class="w-20 h-20 object-cover rounded">
-                                        <div><h3 class="text-lg font-bold italic serif">${item.name}</h3><p class="text-sm text-stone-500">${item.qty} x ${item.price.toFixed(2)} €</p></div>
+                                        <div>
+                                            <h3 class="text-lg font-bold italic serif">${item.name}</h3>
+                                            <p class="text-sm text-stone-500">${item.qty} x ${item.price.toFixed(2)} €</p>
+                                        </div>
                                     </div>
                                     <p class="font-bold">${(item.price * item.qty).toFixed(2)} €</p>
                                 </div>`).join('')}
@@ -217,7 +205,7 @@
                         <div class="bg-stone-50 p-8 h-fit shadow-sm rounded">
                             <h2 class="text-xs uppercase font-bold tracking-widest mb-8 border-b pb-4">Spolu</h2>
                             <div class="flex justify-between text-xl font-bold mb-8"><span>Celkom</span><span>${total.toFixed(2)} €</span></div>
-                            <button onclick="alert('Objednávka prijatá!')" class="w-full bg-stone-900 text-white py-4 uppercase font-bold text-xs tracking-widest shadow-lg">Zaplatiť</button>
+                            <button onclick="alert('Objednávka prijatá!')" class="w-full bg-stone-900 text-white py-4 uppercase font-bold text-[10px] tracking-widest shadow-lg hover:bg-black transition-all">Zaplatiť teraz</button>
                         </div>
                     </div>
                 </div>`;
@@ -245,8 +233,9 @@
             const totalSum = cart.reduce((a, b) => a + (b.price * b.qty), 0);
             count.innerText = totalQty;
             count.classList.toggle('hidden', totalQty === 0);
+            
             if (cart.length === 0) {
-                items.innerHTML = `<p class="text-center text-stone-400 py-20 italic">Košík je prázdny.</p>`;
+                items.innerHTML = `<p class="text-center text-stone-300 py-10 italic">Váš košík je prázdny.</p>`;
                 footer.innerHTML = '';
             } else {
                 items.innerHTML = cart.map(item => `
@@ -255,17 +244,18 @@
                             <img src="${item.image}" class="w-12 h-12 object-cover rounded">
                             <div><h3 class="text-sm font-bold serif italic">${item.name}</h3><p class="text-[10px] text-stone-500">${item.qty}x ${item.price.toFixed(2)} €</p></div>
                         </div>
-                        <button onclick="removeFromCart('${item.id}')" class="text-stone-300 hover:text-stone-900">
+                        <button onclick="removeFromCart('${item.id}')" class="text-stone-300 hover:text-stone-900 transition-colors">
                             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
                         </button>
                     </div>`).join('');
-                footer.innerHTML = `<div class="flex justify-between mb-6 font-bold"><span>Spolu:</span><span>${totalSum.toFixed(2)} €</span></div><button onclick="navigate('checkout'); toggleCart(false);" class="w-full bg-stone-900 text-white py-4 uppercase font-bold text-xs tracking-widest shadow-xl">Do pokladne</button>`;
+                footer.innerHTML = `<div class="flex justify-between mb-6 font-bold"><span>Spolu:</span><span>${totalSum.toFixed(2)} €</span></div><button onclick="navigate('checkout'); toggleCart(false);" class="w-full bg-stone-900 text-white py-4 uppercase font-bold text-[10px] tracking-widest shadow-xl hover:bg-black transition-all">Do pokladne</button>`;
             }
         };
 
         window.toggleCart = (show) => {
             document.getElementById('cart-sidebar').classList.toggle('open', show);
             document.getElementById('overlay').classList.toggle('active', show);
+            document.body.style.overflow = show ? 'hidden' : 'auto';
         };
 
         navigate('home');
