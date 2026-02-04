@@ -20,7 +20,6 @@
         .cart-sidebar.open { transform: translateX(0); }
         .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 100; }
         .overlay.active { display: block; }
-        .cat-btn.active { border-bottom-color: black; color: black; }
     </style>
 </head>
 <body class="overflow-x-hidden">
@@ -38,7 +37,7 @@
                     <button onclick="navigate('shop')" class="hover:text-black transition-colors">Obchod</button>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <button onclick="toggleCart()" class="relative p-2 text-stone-700 hover:text-black transition-colors">
+                    <button onclick="toggleCart(true)" class="relative p-2 text-stone-700 hover:text-black transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.1-5.31H5.12"/></svg>
                         <span id="cart-count" class="absolute top-0 right-0 bg-stone-900 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
                     </button>
@@ -51,16 +50,16 @@
 
     <footer class="bg-stone-100 border-t border-stone-200 pt-16 pb-8 mt-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12 text-center md:text-left">
                 <div>
                     <h1 class="text-2xl logo-font mb-4">chliebAkava</h1>
-                    <p class="text-stone-600 text-sm italic leading-relaxed mb-6">Hľadáme krásu v jednoduchosti. Kváskový chlieb, výberová káva a spomalenie.</p>
+                    <p class="text-stone-600 text-sm italic leading-relaxed">Hľadáme krásu v jednoduchosti. Kváskový chlieb, výberová káva a spomalenie.</p>
                 </div>
                 <div>
                     <h3 class="uppercase text-[10px] tracking-widest font-bold text-stone-900 mb-6">Sledujte nás</h3>
-                    <div class="flex space-x-4 text-stone-600">
-                        <a href="https://www.instagram.com/chliebakava/" target="_blank" class="hover:text-black transition-colors">Instagram</a>
-                        <a href="https://www.tiktok.com/@chliebakava" target="_blank" class="hover:text-black transition-colors">TikTok</a>
+                    <div class="flex justify-center md:justify-start space-x-4 text-stone-600">
+                        <a href="https://www.instagram.com/chliebakava/" target="_blank" class="hover:text-black">Instagram</a>
+                        <a href="https://www.tiktok.com/@chliebakava" target="_blank" class="hover:text-black">TikTok</a>
                     </div>
                 </div>
                 <div>
@@ -75,8 +74,9 @@
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-stone-200 pt-8 text-xs text-stone-500 flex justify-between">
-                <p>© 2024 chliebAkava s.r.o. | IČO: 12345678</p>
+            <div class="border-t border-stone-200 pt-8 text-xs text-stone-500 flex justify-between items-center">
+                <p>© 2024 chliebAkava s.r.o.</p>
+                <p>IČO: 12345678</p>
             </div>
         </div>
     </footer>
@@ -89,49 +89,20 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
             </button>
         </div>
-        <div id="cart-items" class="flex-grow overflow-y-auto p-8 space-y-8 custom-scrollbar"></div>
+        <div id="cart-items" class="flex-grow overflow-y-auto p-8 space-y-6 custom-scrollbar"></div>
         <div id="cart-footer" class="p-8 bg-white border-t"></div>
     </div>
 
-    <div class="fixed bottom-8 right-8 z-40">
-        <button onclick="toggleAI()" class="bg-stone-900 text-stone-50 p-4 rounded-full shadow-2xl hover:bg-black group flex items-center gap-3 transition-all overflow-hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            <span class="max-w-0 group-hover:max-w-xs transition-all duration-500 overflow-hidden whitespace-nowrap text-xs uppercase font-bold tracking-widest">Kváskový poradca</span>
-        </button>
-    </div>
-
-    <div id="ai-modal" class="hidden fixed inset-0 z-[120] items-center justify-center p-4">
-        <div class="absolute inset-0 bg-stone-900/60 backdrop-blur-sm" onclick="toggleAI()"></div>
-        <div class="relative w-full max-w-xl bg-white shadow-2xl p-8 rounded-sm">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold italic serif">Máte otázku o pečení?</h3>
-                <button onclick="toggleAI()"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg></button>
-            </div>
-            <div id="ai-response" class="max-h-[50vh] overflow-y-auto mb-6 custom-scrollbar text-stone-700 italic text-sm leading-relaxed">Opýtajte sa na čokoľvek...</div>
-            <form onsubmit="handleAIAsk(event)" class="flex gap-4">
-                <input id="ai-input" type="text" class="flex-grow border-b border-stone-200 py-2 focus:outline-none focus:border-stone-900 text-sm" placeholder="Napr. Prečo cesto nerastie?">
-                <button type="submit" class="bg-stone-900 text-white px-6 py-2 uppercase font-bold text-xs tracking-widest">Poslať</button>
-            </form>
-        </div>
-    </div>
-
-    <script type="module">
-        // KONFIGURÁCIA AI (Vlož svoj kľúč sem)
-        const API_KEY = "TU_VLOZ_SVOJ_GEMINI_API_KEY";
-
+    <script>
+        // --- Produkty ---
         const PRODUCTS = [
-            { id: '1', name: 'Oválna ošatka', price: 16.90, category: 'Ošatky', image: 'https://images.unsplash.com/photo-1589367920969-ab8e050bac04?w=800', description: 'Prírodná oválna ošatka z nebieleného ratanu.' },
-            { id: '2', name: 'Okrúhla ošatka', price: 14.90, category: 'Ošatky', image: 'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=800', description: 'Okrúhla ošatka na klasické bochníky.' },
-            { id: '3', name: 'Nožík na narezávanie', price: 22.50, category: 'Náradie na chlieb', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800', description: 'Profesionálny nožík na narezávanie.' },
-            { id: '4', name: 'Stierka na cesto', price: 8.90, category: 'Náradie na chlieb', image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800', description: 'Praktická stierka uľahčuje miešanie.' },
-            { id: '5', name: 'Látková vložka do ošatky', price: 6.50, category: 'Náradie na chlieb', image: 'https://images.unsplash.com/photo-1581339399838-2a120c18bba3?w=800', description: 'Bavlnená vložka zabraňuje prilepeniu.' },
-            { id: '6', name: 'Sklená dóza na kvások', price: 12.00, category: 'Náradie na chlieb', image: 'https://images.unsplash.com/photo-1621841957884-1210fe1bbd66?w=800', description: 'Dóza s odmerkou pre váš kvások.' },
-            { id: '7', name: 'Sada na pečenie chleba', price: 45.00, category: 'Sady pre začiatočníkov', image: 'https://images.unsplash.com/photo-1598373182133-52452f7691ef?w=800', description: 'Kompletná štartovacia sada.' }
-        ];
-
-        const BLOG_POSTS = [
-            { id: 'b1', title: 'Ako začať s prvým kváskom', date: '12. marec 2024', image: 'https://images.unsplash.com/photo-1585478259715-876acc5be8eb?w=800', excerpt: 'Všetko, čo potrebujete vedieť o založení kvásku.' },
-            { id: 'b2', title: 'Tajomstvo chrumkavej kôrky', date: '10. marec 2024', image: 'https://images.unsplash.com/photo-1517686469429-8bdb88b9f907?w=800', excerpt: 'Pár trikov, vďaka ktorým bude váš chlieb spievať.' }
+            { id: '1', name: 'Oválna ošatka', price: 16.90, category: 'Ošatky', image: 'https://images.unsplash.com/photo-1589367920969-ab8e050bac04?w=400', description: 'Prírodná oválna ošatka z nebieleného ratanu.' },
+            { id: '2', name: 'Okrúhla ošatka', price: 14.90, category: 'Ošatky', image: 'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=400', description: 'Okrúhla ošatka na klasické bochníky.' },
+            { id: '3', name: 'Nožík na narezávanie', price: 22.50, category: 'Náradie na chlieb', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400', description: 'Profesionálny nožík na narezávanie.' },
+            { id: '4', name: 'Stierka na cesto', price: 8.90, category: 'Náradie na chlieb', image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400', description: 'Praktická stierka uľahčuje miešanie.' },
+            { id: '5', name: 'Látková vložka do ošatky', price: 6.50, category: 'Náradie na chlieb', image: 'https://images.unsplash.com/photo-1581339399838-2a120c18bba3?w=400', description: 'Bavlnená vložka zabraňuje prilepeniu.' },
+            { id: '6', name: 'Sklená dóza na kvások', price: 12.00, category: 'Náradie na chlieb', image: 'https://images.unsplash.com/photo-1621841957884-1210fe1bbd66?w=400', description: 'Dóza s odmerkou pre váš kvások.' },
+            { id: '7', name: 'Sada na pečenie chleba', price: 45.00, category: 'Sady pre začiatočníkov', image: 'https://images.unsplash.com/photo-1598373182133-52452f7691ef?w=400', description: 'Kompletná štartovacia sada.' }
         ];
 
         let cart = [];
@@ -143,39 +114,25 @@
 
             if (view === 'home') {
                 content.innerHTML = `
-                    <section class="min-h-[80vh] flex flex-col md:flex-row items-center bg-[#faf9f6]">
-                        <div class="flex-1 text-center p-12">
+                    <section class="min-h-[80vh] flex flex-col md:flex-row items-center bg-[#faf9f6] text-center md:text-left px-8">
+                        <div class="flex-1 md:pl-24 py-16">
                             <h1 class="text-5xl md:text-7xl font-bold mb-8 italic serif">Vôňa chleba,<br/>pokoj v šálke.</h1>
-                            <button onclick="navigate('shop')" class="bg-stone-900 text-white px-10 py-5 uppercase text-xs font-bold tracking-widest">Obchod</button>
+                            <button onclick="navigate('shop')" class="bg-stone-900 text-white px-10 py-5 uppercase text-xs font-bold tracking-widest shadow-xl">Obchod</button>
                         </div>
-                    </section>
-                    <section class="py-24 bg-white px-4 text-center">
-                        <div class="max-w-2xl mx-auto space-y-6 text-stone-600">
-                            <p class="font-bold text-stone-900 serif italic text-2xl">Chlieb a káva. Dve malé veci, ktoré vedia spomaliť deň.</p>
-                            <p>chliebAkava vzniklo z lásky ku kvásku, k vôni čerstvo upečeného chleba a k ránam, keď je v kuchyni ešte ticho.</p>
-                            <p class="text-3xl mt-12 text-stone-900">Vitaj 🤍</p>
+                        <div class="flex-1 flex justify-center p-12">
+                            <img src="https://chliebakava.sk/wp-content/uploads/2023/11/logo-chliebakava.png" class="max-w-md w-full opacity-80">
                         </div>
                     </section>`;
-            } else if (view === 'about') {
-                content.innerHTML = `
-                    <div class="max-w-5xl mx-auto px-4 py-24 grid md:grid-cols-2 gap-20 items-center">
-                        <img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=800" class="grayscale-[30%]">
-                        <div class="text-left space-y-6 text-stone-600">
-                            <h1 class="text-5xl serif italic">Ahoj, volám sa Michaela.</h1>
-                            <p>Kvások, chlieb a káva si ku mne našli cestu postupne. Mám rada vôňu teplého pečiva, tiché rána a chvíle pre seba.</p>
-                            <p>Na tomto e-shope nájdeš pomôcky, ktoré pri pečení sama používam.</p>
-                        </div>
-                    </div>`;
             } else if (view === 'shop') {
                 content.innerHTML = `
-                    <div class="max-w-7xl mx-auto px-4 py-16">
+                    <div class="max-w-7xl mx-auto px-8 py-16">
                         <h1 class="text-5xl text-center serif italic mb-16">Obchod</h1>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                             ${PRODUCTS.map(p => `
                                 <div class="cursor-pointer group" onclick="navigate('product', '${p.id}')">
-                                    <img src="${p.image}" class="w-full h-80 object-cover mb-4 group-hover:scale-105 transition-transform">
+                                    <img src="${p.image}" class="w-full h-80 object-cover mb-4 group-hover:scale-105 transition-all duration-500">
                                     <h3 class="text-lg font-bold italic serif">${p.name}</h3>
-                                    <p>${p.price.toFixed(2)} €</p>
+                                    <p class="text-stone-900">${p.price.toFixed(2)} €</p>
                                 </div>
                             `).join('')}
                         </div>
@@ -183,33 +140,79 @@
             } else if (view === 'product' && productId) {
                 const p = PRODUCTS.find(x => x.id === productId);
                 content.innerHTML = `
-                    <div class="max-w-7xl mx-auto px-4 py-16 grid md:grid-cols-2 gap-16">
-                        <img src="${p.image}" class="w-full">
-                        <div>
+                    <div class="max-w-7xl mx-auto px-8 py-16 grid md:grid-cols-2 gap-16">
+                        <img src="${p.image}" class="w-full shadow-lg">
+                        <div class="flex flex-col justify-center">
                             <h1 class="text-5xl serif italic font-bold mb-6">${p.name}</h1>
                             <p class="text-2xl mb-8">${p.price.toFixed(2)} €</p>
-                            <p class="mb-12 italic">${p.description}</p>
-                            <button onclick="addToCart('${p.id}')" class="w-full bg-stone-900 text-white py-5 uppercase font-bold text-xs tracking-widest">Pridať do košíka</button>
+                            <p class="mb-12 italic text-stone-600 leading-relaxed">${p.description}</p>
+                            <button onclick="addToCart('${p.id}')" class="w-full bg-stone-900 text-white py-5 uppercase font-bold text-xs tracking-widest shadow-xl">Pridať do košíka</button>
                         </div>
                     </div>`;
-            } else if (view === 'blog') {
-                content.innerHTML = `
-                    <div class="max-w-5xl mx-auto px-4 py-16">
-                        <h1 class="text-5xl text-center serif italic mb-16">Zápisník</h1>
-                        <div class="space-y-24">
-                            ${BLOG_POSTS.map(post => `
-                                <article class="flex flex-col md:flex-row gap-12 items-center">
-                                    <img src="${post.image}" class="flex-1 h-80 object-cover">
-                                    <div class="flex-1">
-                                        <h2 class="text-4xl serif italic mb-4">${post.title}</h2>
-                                        <p class="text-stone-600 mb-6">${post.excerpt}</p>
-                                        <button class="border-b border-black font-bold text-[10px] uppercase">Čítať viac</button>
+            } else if (view === 'checkout') {
+                renderCheckoutPage(content);
+            }
+        };
+
+        // --- Funkcia pre novú stránku Pokladne ---
+        const renderCheckoutPage = (container) => {
+            const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="max-w-4xl mx-auto px-8 py-24 text-center">
+                        <h1 class="text-4xl serif italic mb-8">Váš košík je prázdny</h1>
+                        <button onclick="navigate('shop')" class="text-stone-900 border-b border-stone-900 font-bold uppercase text-xs tracking-widest">Späť do obchodu</button>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="max-w-5xl mx-auto px-8 py-16">
+                    <h1 class="text-5xl serif italic mb-16 text-center">Súhrn objednávky</h1>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+                        <div class="lg:col-span-2 space-y-8">
+                            ${cart.map(item => `
+                                <div class="flex items-center justify-between border-b border-stone-100 pb-8">
+                                    <div class="flex items-center gap-6">
+                                        <img src="${item.image}" class="w-20 h-20 object-cover rounded">
+                                        <div>
+                                            <h3 class="text-lg font-bold italic serif">${item.name}</h3>
+                                            <p class="text-sm text-stone-500">${item.qty} x ${item.price.toFixed(2)} €</p>
+                                        </div>
                                     </div>
-                                </article>
+                                    <p class="font-bold">${(item.price * item.qty).toFixed(2)} €</p>
+                                </div>
                             `).join('')}
                         </div>
-                    </div>`;
-            }
+
+                        <div class="bg-stone-50 p-8 h-fit shadow-sm rounded">
+                            <h2 class="text-xs uppercase font-bold tracking-widest mb-8 border-b pb-4">Spolu</h2>
+                            <div class="space-y-4 mb-8">
+                                <div class="flex justify-between text-stone-600">
+                                    <span>Medzisúčet</span>
+                                    <span>${total.toFixed(2)} €</span>
+                                </div>
+                                <div class="flex justify-between text-stone-600">
+                                    <span>Doprava</span>
+                                    <span class="italic text-xs">Vypočíta sa v ďalšom kroku</span>
+                                </div>
+                                <div class="flex justify-between text-xl font-bold pt-4 border-t border-stone-200">
+                                    <span>Celkom</span>
+                                    <span>${total.toFixed(2)} €</span>
+                                </div>
+                            </div>
+                            <button onclick="alert('Objednávka odoslaná do platobnej brány!')" class="w-full bg-stone-900 text-white py-4 uppercase font-bold text-xs tracking-widest shadow-lg hover:bg-black transition-colors">
+                                Zaplatiť teraz
+                            </button>
+                            <p class="text-[10px] text-stone-400 mt-6 text-center leading-relaxed">
+                                Bezpečná platba cez GoPay, Stripe alebo Besteron.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
         };
 
         window.addToCart = (id) => {
@@ -219,6 +222,11 @@
             else cart.push({...p, qty: 1});
             updateCartUI();
             toggleCart(true);
+        };
+
+        window.removeFromCart = (id) => {
+            cart = cart.filter(x => x.id !== id);
+            updateCartUI();
         };
 
         const updateCartUI = () => {
@@ -236,45 +244,38 @@
                 footer.innerHTML = '';
             } else {
                 items.innerHTML = cart.map(item => `
-                    <div class="flex justify-between items-center border-b pb-4">
-                        <div>
-                            <h3 class="text-sm font-bold italic">${item.name}</h3>
-                            <p class="text-xs text-stone-500">${item.qty}x ${item.price.toFixed(2)} €</p>
+                    <div class="flex justify-between items-center border-b border-stone-50 pb-4">
+                        <div class="flex gap-4 items-center">
+                            <img src="${item.image}" class="w-12 h-12 object-cover rounded">
+                            <div>
+                                <h3 class="text-sm font-bold serif italic">${item.name}</h3>
+                                <p class="text-[10px] text-stone-500">${item.qty}x ${item.price.toFixed(2)} €</p>
+                            </div>
                         </div>
+                        <button onclick="removeFromCart('${item.id}')" class="text-stone-300 hover:text-stone-900">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                        </button>
                     </div>
                 `).join('');
-                footer.innerHTML = `<button class="w-full bg-stone-900 text-white py-4 font-bold">K platbe (${totalSum.toFixed(2)} €)</button>`;
+                footer.innerHTML = `
+                    <div class="flex justify-between mb-6 font-bold">
+                        <span>Spolu:</span>
+                        <span>${totalSum.toFixed(2)} €</span>
+                    </div>
+                    <button onclick="navigate('checkout'); toggleCart(false);" class="w-full bg-stone-900 text-white py-4 uppercase font-bold text-xs tracking-widest shadow-xl">
+                        Do pokladne
+                    </button>
+                `;
             }
         };
 
         window.toggleCart = (show) => {
             document.getElementById('cart-sidebar').classList.toggle('open', show);
             document.getElementById('overlay').classList.toggle('active', show);
+            document.body.style.overflow = show ? 'hidden' : 'auto';
         };
 
-        window.toggleAI = () => {
-            document.getElementById('ai-modal').classList.toggle('hidden');
-            document.getElementById('ai-modal').classList.toggle('flex');
-        };
-
-        window.handleAIAsk = async (e) => {
-            e.preventDefault();
-            const input = document.getElementById('ai-input');
-            const responseDiv = document.getElementById('ai-response');
-            if (!input.value.trim()) return;
-            
-            responseDiv.innerText = "Premýšľam...";
-            try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: "Si poradca pre chliebAkava. Odpovedaj v slovenčine o kváskovaní: " + input.value }] }] })
-                });
-                const data = await res.json();
-                responseDiv.innerText = data.candidates[0].content.parts[0].text;
-            } catch (err) { responseDiv.innerText = "Služba dočasne nedostupná."; }
-        };
-
+        // Spustenie domovskej stránky
         navigate('home');
     </script>
 </body>
